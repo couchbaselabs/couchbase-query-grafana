@@ -20,11 +20,15 @@ Once the JSON API is [installed](https://marcus.se.net/grafana-json-datasource/i
 
 Repeat this process for _each_ query node that you wish to configure.   By default each of the dashboards is setup with variable for the `$datasource` that will automatically show a list of each datasource configured using the [JSON API Datasource](https://marcus.se.net/grafana-json-datasource/) plugin.  
 
+---
+
 ## Dashboards
 
 The dashboards can be imported into Grafana, but navigating to Manage Dashboards and selecting the Import option.  The dashboard json can be copied and pasted directly into the UI or uploaded.  
 
 ### [Slow Queries Dashboard](dashboards/slow-queries-dashboard.json)
+
+![Slow Queries Dashboard](./assets/slow-queries-dashboards.jpg)
 
 The slow queries dashboard will query and display information from the [`system:completed_requests`](https://docs.couchbase.com/server/current/manage/monitor/monitoring-n1ql-query.html#sys-completed-req) keyspace.    Many of these queries are adapted from the [Couchbase Connect Online: Identifying and Tuning Slow Queries Presentation](https://www.youtube.com/watch?v=VlvL6jYCENw&t=1s).   While the  [`system:completed_requests`](https://docs.couchbase.com/server/current/manage/monitor/monitoring-n1ql-query.html#sys-completed-req) keyspace is global, the N1QL queries performed by the dashboard are limited in scope to a single query node for minimal impact and performance.
 
