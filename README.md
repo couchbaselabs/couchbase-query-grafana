@@ -15,7 +15,7 @@ Once the JSON API is [installed](https://marcus.se.net/grafana-json-datasource/i
 -   Replace `HOSTNAME` with the configured hostname or IP address
 4.  In the "Auth" section check `Basic Auth` and `With Credentials`
 -   If using SSL, check `Skip TLS Verify`
-5.  Enter an [RBAC](https://docs.couchbase.com/server/current/rest-api/rbac.html) Username and Password
+5.  Enter an [RBAC](https://docs.couchbase.com/server/current/rest-api/rbac.html) Username and Password.  Note that the RBAC user must have access to `Query System Catalogs`
 6.  Select the `Save & Test` button, note that you will get an error that says `JSON API: Not Found`, this can be ignored as the datasource is saved.  This is due to no endpoints being configured as they are configured in the dashboards themselves.
 
 Repeat this process for _each_ query node that you wish to configure.   By default each of the dashboards is setup with variable for the `$datasource` that will automatically show a list of each datasource configured using the [JSON API Datasource](https://marcus.se.net/grafana-json-datasource/) plugin.  
