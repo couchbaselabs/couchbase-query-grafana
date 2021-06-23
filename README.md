@@ -9,14 +9,15 @@ The dashboards leverage the Grafana plugin [JSON API Datasource](https://marcus.
 Once the JSON API is [installed](https://marcus.se.net/grafana-json-datasource/installation), a datasource will need to be configured for _each_ of the Couchbase Nodes running the Query Service.  
 
 1.  In Grafana, navigate to `Data Sources` and select `Add data source`
-2.  Enter a name for the datasource, this can be whatever you prefer.  A suggestion for multiple clusters might be `Name of Cluster - node hostname`
-3.  In the `URL` field enter `http://HOSTNAME:8093`
+2.  From the list of data-sources select `JSON API`
+3.  Enter a name for the datasource, this can be whatever you prefer.  A suggestion for multiple clusters might be `Name of Cluster - node hostname`
+4.  In the `URL` field enter `http://HOSTNAME:8093`
 -   If you are using SSL, enter `https://HOSTNAME:18093`
 -   Replace `HOSTNAME` with the configured hostname or IP address
-4.  In the "Auth" section check `Basic Auth` and `With Credentials`
+5.  In the "Auth" section check `Basic Auth` and `With Credentials`
 -   If using SSL, check `Skip TLS Verify`
-5.  Enter an [RBAC](https://docs.couchbase.com/server/current/rest-api/rbac.html) Username and Password.  Note that the RBAC user must have access to `Query System Catalogs`
-6.  Select the `Save & Test` button, note that you will get an error that says `JSON API: Not Found`, this can be ignored as the datasource is saved.  This is due to no endpoints being configured as they are configured in the dashboards themselves.
+6.  Enter an [RBAC](https://docs.couchbase.com/server/current/rest-api/rbac.html) Username and Password.  Note that the RBAC user must have access to `Query System Catalogs`
+7.  Select the `Save & Test` button, note that you will get an error that says `JSON API: Not Found`, this can be ignored as the datasource is saved.  This is due to no endpoints being configured as they are configured in the dashboards themselves.
 
 Repeat this process for _each_ query node that you wish to configure.   By default each of the dashboards is setup with variable for the `$datasource` that will automatically show a list of each datasource configured using the [JSON API Datasource](https://marcus.se.net/grafana-json-datasource/) plugin.  
 
@@ -24,7 +25,7 @@ Repeat this process for _each_ query node that you wish to configure.   By defau
 
 ## Dashboards
 
-The dashboards can be imported into Grafana, but navigating to Manage Dashboards and selecting the Import option.  The dashboard json can be copied and pasted directly into the UI or uploaded.  
+The dashboards can be imported into Grafana, by navigating to `Manage Dashboards` and selecting the `Import` option.  The dashboard json can be copied and pasted directly into the UI or uploaded.  
 
 ### [Slow Queries Dashboard](dashboards/slow-queries-dashboard.json)
 
