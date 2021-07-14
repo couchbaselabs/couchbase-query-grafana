@@ -1,0 +1,1578 @@
+{
+  "__inputs": [],
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "8.0.3"
+    },
+    {
+      "type": "datasource",
+      "id": "marcusolsson-json-datasource",
+      "name": "JSON API",
+      "version": "1.2.1"
+    },
+    {
+      "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "Identify and Review Information about Prepared Statements in Couchbase Server",
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "iteration": 1626287519868,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": false,
+      "datasource": "$datasource",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 19,
+      "panels": [],
+      "title": "Charts",
+      "type": "row"
+    },
+    {
+      "datasource": "$datasource",
+      "description": "Total # of Prepared Queries",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "total"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "none"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 0,
+        "y": 1
+      },
+      "id": 12,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.0.3",
+      "targets": [
+        {
+          "body": "{\n    \"statement\": \"SELECT COUNT(1) AS total FROM system:prepareds WHERE node = NODE_NAME()\",\n    \"readonly\": true,\n    \"client_context_id\": \"grafana\"\n}",
+          "cacheDurationSeconds": 300,
+          "fields": [
+            {
+              "jsonPath": "$.results[*].total",
+              "name": "",
+              "type": "number"
+            }
+          ],
+          "headers": [
+            [
+              "Content-Type",
+              "application/json"
+            ]
+          ],
+          "method": "POST",
+          "queryParams": "",
+          "refId": "A",
+          "urlPath": "/query/service"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Count of Prepareds",
+      "type": "stat"
+    },
+    {
+      "datasource": "$datasource",
+      "description": "Total # of Prepared Queries that have not been used",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "total"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "none"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 6,
+        "y": 1
+      },
+      "id": 46,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.0.3",
+      "targets": [
+        {
+          "body": "{\n    \"statement\": \"SELECT COUNT(1) AS total FROM system:prepareds WHERE node = NODE_NAME() AND uses = 0\",\n    \"readonly\": true,\n    \"client_context_id\": \"grafana\"\n}",
+          "cacheDurationSeconds": 300,
+          "fields": [
+            {
+              "jsonPath": "$.results[*].total",
+              "name": "",
+              "type": "number"
+            }
+          ],
+          "headers": [
+            [
+              "Content-Type",
+              "application/json"
+            ]
+          ],
+          "method": "POST",
+          "queryParams": "",
+          "refId": "A",
+          "urlPath": "/query/service"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Count of Un-Used Prepareds",
+      "type": "stat"
+    },
+    {
+      "datasource": "$datasource",
+      "description": "Average # of Uses for Prepareds",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "uses"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 12,
+        "y": 1
+      },
+      "id": 42,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.0.3",
+      "targets": [
+        {
+          "body": "{\n    \"statement\": \"SELECT ROUND(AVG(uses), 2) AS uses FROM system:prepareds WHERE node = NODE_NAME()\",\n    \"readonly\": true,\n    \"client_context_id\": \"grafana\"\n}",
+          "cacheDurationSeconds": 300,
+          "fields": [
+            {
+              "jsonPath": "$.results[*].uses",
+              "name": "",
+              "type": "number"
+            }
+          ],
+          "headers": [
+            [
+              "Content-Type",
+              "application/json"
+            ]
+          ],
+          "method": "POST",
+          "queryParams": "",
+          "refId": "A",
+          "urlPath": "/query/service"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Avg. Uses per Prepared Query",
+      "type": "stat"
+    },
+    {
+      "datasource": "$datasource",
+      "description": "Average Elapsed Time for Prepareds",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 1000
+              },
+              {
+                "color": "dark-red",
+                "value": 5000
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "avg_elapsed_time"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "ms"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 18,
+        "y": 1
+      },
+      "id": 41,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.0.3",
+      "targets": [
+        {
+          "body": "{\n    \"statement\": \"SELECT ROUND(AVG(STR_TO_DURATION(avgElapsedTime)) / 1000 / 1000, 2) AS avg_elapsed_time FROM system:prepareds WHERE node = NODE_NAME()\",\n    \"readonly\": true,\n    \"client_context_id\": \"grafana\"\n}",
+          "cacheDurationSeconds": 300,
+          "fields": [
+            {
+              "jsonPath": "$.results[*].avg_elapsed_time",
+              "name": "",
+              "type": "number"
+            }
+          ],
+          "headers": [
+            [
+              "Content-Type",
+              "application/json"
+            ]
+          ],
+          "method": "POST",
+          "queryParams": "",
+          "refId": "A",
+          "urlPath": "/query/service"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Avg. Elapsed Time for Prepareds",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "datasource": "$datasource",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "id": 37,
+      "panels": [],
+      "title": "Slowest Prepared Queries",
+      "type": "row"
+    },
+    {
+      "columns": [],
+      "datasource": "$datasource",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null,
+            "displayMode": "auto",
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Uses"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "custom.width",
+                "value": 60
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Avg. Elapsed Time"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "ms"
+              },
+              {
+                "id": "custom.width",
+                "value": 145
+              },
+              {
+                "id": "custom.displayMode",
+                "value": "gradient-gauge"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Min. Elapsed Time"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "ms"
+              },
+              {
+                "id": "custom.width",
+                "value": 142
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Max. Elapsed Time"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "ms"
+              },
+              {
+                "id": "custom.width",
+                "value": 141
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Name"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 142
+              },
+              {
+                "id": "custom.filterable",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Statement"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Last Use"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "dateTimeAsIso"
+              },
+              {
+                "id": "custom.align",
+                "value": "left"
+              },
+              {
+                "id": "custom.width",
+                "value": 150
+              }
+            ]
+          }
+        ]
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 11,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
+      "id": 43,
+      "options": {
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "Avg. Elapsed Time"
+          }
+        ]
+      },
+      "pageSize": null,
+      "pluginVersion": "8.0.3",
+      "showHeader": true,
+      "sort": {
+        "col": 5,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "align": "auto",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "alias": "",
+          "align": "right",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "body": "{\n    \"statement\": \"SELECT name,        statement,        last_use,        avg_elapsed_time,        avg_service_time,         max_elapsed_time,         max_service_time,        min_elapsed_time,        min_service_time,        uses FROM system:prepareds LET last_use = IFMISSING(STR_TO_MILLIS(SPLIT(lastUse, \\\" \\\")[0] || \\\"T\\\" || SPLIT(lastUse, \\\" \\\")[1] || \\\"Z\\\"), null),     avg_elapsed_time = IFMISSING(ROUND(STR_TO_DURATION(avgElapsedTime) / 1000 / 1000, 2), null),     avg_service_time = IFMISSING(ROUND(STR_TO_DURATION(avgServiceTime) / 1000 / 1000, 2), null),     max_elapsed_time = IFMISSING(ROUND(STR_TO_DURATION(maxElapsedTime) / 1000 / 1000, 2), null),     max_service_time = IFMISSING(ROUND(STR_TO_DURATION(maxServiceTime) / 1000 / 1000, 2), null),     min_elapsed_time = IFMISSING(ROUND(STR_TO_DURATION(minElapsedTime) / 1000 / 1000, 2), null),     min_service_time = IFMISSING(ROUND(STR_TO_DURATION(minServiceTime) / 1000 / 1000, 2), null) WHERE node = NODE_NAME() AND uses > 0 ORDER BY avg_elapsed_time DESC LIMIT $stop;\",\n    \"$stop\": ${limit},\n    \"readonly\": true,\n    \"client_context_id\": \"grafana\"\n}",
+          "cacheDurationSeconds": 0,
+          "fields": [
+            {
+              "jsonPath": "$.results[*].name",
+              "name": "Name",
+              "type": "string"
+            },
+            {
+              "jsonPath": "$.results[*].uses",
+              "name": "Uses",
+              "type": "number"
+            },
+            {
+              "jsonPath": "$.results[*].last_use",
+              "name": "Last Use",
+              "type": "number"
+            },
+            {
+              "jsonPath": "$.results[*].avg_elapsed_time",
+              "name": "Avg. Elapsed Time",
+              "type": "number"
+            },
+            {
+              "jsonPath": "$.results[*].min_elapsed_time",
+              "name": "Min. Elapsed Time",
+              "type": "number"
+            },
+            {
+              "jsonPath": "$.results[*].max_elapsed_time",
+              "name": "Max. Elapsed Time",
+              "type": "number"
+            },
+            {
+              "jsonPath": "$.results[*].statement",
+              "name": "Statement",
+              "type": "string"
+            }
+          ],
+          "headers": [
+            [
+              "Content-Type",
+              "application/json"
+            ]
+          ],
+          "method": "POST",
+          "params": [],
+          "queryParams": "",
+          "refId": "A",
+          "urlPath": "/query/service"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Top ${limit} Slowest Prepared Queries",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "collapsed": true,
+      "datasource": "$datasource",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 19
+      },
+      "id": 23,
+      "panels": [
+        {
+          "columns": [],
+          "datasource": "$datasource",
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": null,
+                "displayMode": "auto",
+                "filterable": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Uses"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "short"
+                  },
+                  {
+                    "id": "custom.width",
+                    "value": 60
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Avg. Elapsed Time"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "ms"
+                  },
+                  {
+                    "id": "custom.width",
+                    "value": 145
+                  },
+                  {
+                    "id": "custom.displayMode",
+                    "value": "gradient-gauge"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Min. Elapsed Time"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "ms"
+                  },
+                  {
+                    "id": "custom.width",
+                    "value": 142
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Max. Elapsed Time"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "ms"
+                  },
+                  {
+                    "id": "custom.width",
+                    "value": 141
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Name"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 142
+                  },
+                  {
+                    "id": "custom.filterable",
+                    "value": true
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Statement"
+                },
+                "properties": [
+                  {
+                    "id": "custom.filterable",
+                    "value": true
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Last Use"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "dateTimeAsIso"
+                  },
+                  {
+                    "id": "custom.align",
+                    "value": "left"
+                  },
+                  {
+                    "id": "custom.width",
+                    "value": 150
+                  }
+                ]
+              }
+            ]
+          },
+          "fontSize": "100%",
+          "gridPos": {
+            "h": 11,
+            "w": 24,
+            "x": 0,
+            "y": 21
+          },
+          "id": 44,
+          "options": {
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": true,
+                "displayName": "Uses"
+              }
+            ]
+          },
+          "pageSize": null,
+          "pluginVersion": "8.0.3",
+          "showHeader": true,
+          "sort": {
+            "col": 5,
+            "desc": true
+          },
+          "styles": [
+            {
+              "alias": "Time",
+              "align": "auto",
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "pattern": "Time",
+              "type": "date"
+            },
+            {
+              "alias": "",
+              "align": "right",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "decimals": 2,
+              "pattern": "/.*/",
+              "thresholds": [],
+              "type": "number",
+              "unit": "short"
+            }
+          ],
+          "targets": [
+            {
+              "body": "{\n    \"statement\": \"SELECT name,        statement,        last_use,        avg_elapsed_time,        avg_service_time,         max_elapsed_time,         max_service_time,        min_elapsed_time,        min_service_time,        uses FROM system:prepareds LET last_use = IFMISSING(STR_TO_MILLIS(SPLIT(lastUse, \\\" \\\")[0] || \\\"T\\\" || SPLIT(lastUse, \\\" \\\")[1] || \\\"Z\\\"), null),     avg_elapsed_time = IFMISSING(ROUND(STR_TO_DURATION(avgElapsedTime) / 1000 / 1000, 2), null),     avg_service_time = IFMISSING(ROUND(STR_TO_DURATION(avgServiceTime) / 1000 / 1000, 2), null),     max_elapsed_time = IFMISSING(ROUND(STR_TO_DURATION(maxElapsedTime) / 1000 / 1000, 2), null),     max_service_time = IFMISSING(ROUND(STR_TO_DURATION(maxServiceTime) / 1000 / 1000, 2), null),     min_elapsed_time = IFMISSING(ROUND(STR_TO_DURATION(minElapsedTime) / 1000 / 1000, 2), null),     min_service_time = IFMISSING(ROUND(STR_TO_DURATION(minServiceTime) / 1000 / 1000, 2), null) WHERE node = NODE_NAME() AND uses > 0 ORDER BY uses DESC LIMIT $stop;\",\n    \"$stop\": ${limit},\n    \"readonly\": true,\n    \"client_context_id\": \"grafana\"\n}",
+              "cacheDurationSeconds": 0,
+              "fields": [
+                {
+                  "jsonPath": "$.results[*].name",
+                  "name": "Name",
+                  "type": "string"
+                },
+                {
+                  "jsonPath": "$.results[*].uses",
+                  "name": "Uses",
+                  "type": "number"
+                },
+                {
+                  "jsonPath": "$.results[*].last_use",
+                  "name": "Last Use",
+                  "type": "number"
+                },
+                {
+                  "jsonPath": "$.results[*].avg_elapsed_time",
+                  "name": "Avg. Elapsed Time",
+                  "type": "number"
+                },
+                {
+                  "jsonPath": "$.results[*].min_elapsed_time",
+                  "name": "Min. Elapsed Time",
+                  "type": "number"
+                },
+                {
+                  "jsonPath": "$.results[*].max_elapsed_time",
+                  "name": "Max. Elapsed Time",
+                  "type": "number"
+                },
+                {
+                  "jsonPath": "$.results[*].statement",
+                  "name": "Statement",
+                  "type": "string"
+                }
+              ],
+              "headers": [
+                [
+                  "Content-Type",
+                  "application/json"
+                ]
+              ],
+              "method": "POST",
+              "params": [],
+              "queryParams": "",
+              "refId": "A",
+              "urlPath": "/query/service"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Top ${limit} Mosted Used Prepared Queries",
+          "transform": "table",
+          "type": "table"
+        }
+      ],
+      "title": "Most Used Prepared Queries",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "datasource": "$datasource",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 20
+      },
+      "id": 25,
+      "panels": [
+        {
+          "columns": [],
+          "datasource": "$datasource",
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": null,
+                "displayMode": "auto",
+                "filterable": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Uses"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "short"
+                  },
+                  {
+                    "id": "custom.width",
+                    "value": 60
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Avg. Elapsed Time"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "ms"
+                  },
+                  {
+                    "id": "custom.width",
+                    "value": 145
+                  },
+                  {
+                    "id": "custom.displayMode",
+                    "value": "gradient-gauge"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Min. Elapsed Time"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "ms"
+                  },
+                  {
+                    "id": "custom.width",
+                    "value": 142
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Max. Elapsed Time"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "ms"
+                  },
+                  {
+                    "id": "custom.width",
+                    "value": 141
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Name"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 142
+                  },
+                  {
+                    "id": "custom.filterable",
+                    "value": true
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Statement"
+                },
+                "properties": [
+                  {
+                    "id": "custom.filterable",
+                    "value": true
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Last Use"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "dateTimeAsIso"
+                  },
+                  {
+                    "id": "custom.align",
+                    "value": "left"
+                  },
+                  {
+                    "id": "custom.width",
+                    "value": 150
+                  }
+                ]
+              }
+            ]
+          },
+          "fontSize": "100%",
+          "gridPos": {
+            "h": 11,
+            "w": 24,
+            "x": 0,
+            "y": 20
+          },
+          "id": 4,
+          "options": {
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": true,
+                "displayName": "Last Use"
+              }
+            ]
+          },
+          "pageSize": null,
+          "pluginVersion": "8.0.3",
+          "showHeader": true,
+          "sort": {
+            "col": 5,
+            "desc": true
+          },
+          "styles": [
+            {
+              "alias": "Time",
+              "align": "auto",
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "pattern": "Time",
+              "type": "date"
+            },
+            {
+              "alias": "",
+              "align": "right",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "decimals": 2,
+              "pattern": "/.*/",
+              "thresholds": [],
+              "type": "number",
+              "unit": "short"
+            }
+          ],
+          "targets": [
+            {
+              "body": "{\n    \"statement\": \"SELECT name,        statement,        last_use,        avg_elapsed_time,        avg_service_time,         max_elapsed_time,         max_service_time,        min_elapsed_time,        min_service_time,        uses FROM system:prepareds LET last_use = IFMISSING(STR_TO_MILLIS(SPLIT(lastUse, \\\" \\\")[0] || \\\"T\\\" || SPLIT(lastUse, \\\" \\\")[1] || \\\"Z\\\"), null),     avg_elapsed_time = IFMISSING(ROUND(STR_TO_DURATION(avgElapsedTime) / 1000 / 1000, 2), null),     avg_service_time = IFMISSING(ROUND(STR_TO_DURATION(avgServiceTime) / 1000 / 1000, 2), null),     max_elapsed_time = IFMISSING(ROUND(STR_TO_DURATION(maxElapsedTime) / 1000 / 1000, 2), null),     max_service_time = IFMISSING(ROUND(STR_TO_DURATION(maxServiceTime) / 1000 / 1000, 2), null),     min_elapsed_time = IFMISSING(ROUND(STR_TO_DURATION(minElapsedTime) / 1000 / 1000, 2), null),     min_service_time = IFMISSING(ROUND(STR_TO_DURATION(minServiceTime) / 1000 / 1000, 2), null) WHERE node = NODE_NAME() AND uses > 0 ORDER BY last_use DESC LIMIT $stop;\",\n    \"$stop\": ${limit},\n    \"readonly\": true,\n    \"client_context_id\": \"grafana\"\n}",
+              "cacheDurationSeconds": 0,
+              "fields": [
+                {
+                  "jsonPath": "$.results[*].name",
+                  "name": "Name",
+                  "type": "string"
+                },
+                {
+                  "jsonPath": "$.results[*].uses",
+                  "name": "Uses",
+                  "type": "number"
+                },
+                {
+                  "jsonPath": "$.results[*].last_use",
+                  "name": "Last Use",
+                  "type": "number"
+                },
+                {
+                  "jsonPath": "$.results[*].avg_elapsed_time",
+                  "name": "Avg. Elapsed Time",
+                  "type": "number"
+                },
+                {
+                  "jsonPath": "$.results[*].min_elapsed_time",
+                  "name": "Min. Elapsed Time",
+                  "type": "number"
+                },
+                {
+                  "jsonPath": "$.results[*].max_elapsed_time",
+                  "name": "Max. Elapsed Time",
+                  "type": "number"
+                },
+                {
+                  "jsonPath": "$.results[*].statement",
+                  "name": "Statement",
+                  "type": "string"
+                }
+              ],
+              "headers": [
+                [
+                  "Content-Type",
+                  "application/json"
+                ]
+              ],
+              "method": "POST",
+              "params": [],
+              "queryParams": "",
+              "refId": "A",
+              "urlPath": "/query/service"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Top ${limit} Recently Used Prepared Queries",
+          "transform": "table",
+          "type": "table"
+        }
+      ],
+      "title": "Most Recently Used Prepared Queries",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "datasource": "$datasource",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 21
+      },
+      "id": 27,
+      "panels": [
+        {
+          "columns": [],
+          "datasource": "$datasource",
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": null,
+                "displayMode": "auto",
+                "filterable": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Uses"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "short"
+                  },
+                  {
+                    "id": "custom.width",
+                    "value": 60
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Avg. Elapsed Time"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "ms"
+                  },
+                  {
+                    "id": "custom.width",
+                    "value": 145
+                  },
+                  {
+                    "id": "custom.displayMode",
+                    "value": "gradient-gauge"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Min. Elapsed Time"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "ms"
+                  },
+                  {
+                    "id": "custom.width",
+                    "value": 142
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Max. Elapsed Time"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "ms"
+                  },
+                  {
+                    "id": "custom.width",
+                    "value": 141
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Name"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 142
+                  },
+                  {
+                    "id": "custom.filterable",
+                    "value": true
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Statement"
+                },
+                "properties": [
+                  {
+                    "id": "custom.filterable",
+                    "value": true
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Last Use"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "dateTimeAsIso"
+                  },
+                  {
+                    "id": "custom.align",
+                    "value": "left"
+                  },
+                  {
+                    "id": "custom.width",
+                    "value": 150
+                  }
+                ]
+              }
+            ]
+          },
+          "fontSize": "100%",
+          "gridPos": {
+            "h": 11,
+            "w": 24,
+            "x": 0,
+            "y": 33
+          },
+          "id": 45,
+          "options": {
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": true,
+                "displayName": "Last Use"
+              }
+            ]
+          },
+          "pageSize": null,
+          "pluginVersion": "8.0.3",
+          "showHeader": true,
+          "sort": {
+            "col": 5,
+            "desc": true
+          },
+          "styles": [
+            {
+              "alias": "Time",
+              "align": "auto",
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "pattern": "Time",
+              "type": "date"
+            },
+            {
+              "alias": "",
+              "align": "right",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "decimals": 2,
+              "pattern": "/.*/",
+              "thresholds": [],
+              "type": "number",
+              "unit": "short"
+            }
+          ],
+          "targets": [
+            {
+              "body": "{\n    \"statement\": \"SELECT name,        statement,        last_use,        avg_elapsed_time,        avg_service_time,         max_elapsed_time,         max_service_time,        min_elapsed_time,        min_service_time,        uses FROM system:prepareds LET last_use = IFMISSING(STR_TO_MILLIS(SPLIT(lastUse, \\\" \\\")[0] || \\\"T\\\" || SPLIT(lastUse, \\\" \\\")[1] || \\\"Z\\\"), null),     avg_elapsed_time = IFMISSING(ROUND(STR_TO_DURATION(avgElapsedTime) / 1000 / 1000, 2), null),     avg_service_time = IFMISSING(ROUND(STR_TO_DURATION(avgServiceTime) / 1000 / 1000, 2), null),     max_elapsed_time = IFMISSING(ROUND(STR_TO_DURATION(maxElapsedTime) / 1000 / 1000, 2), null),     max_service_time = IFMISSING(ROUND(STR_TO_DURATION(maxServiceTime) / 1000 / 1000, 2), null),     min_elapsed_time = IFMISSING(ROUND(STR_TO_DURATION(minElapsedTime) / 1000 / 1000, 2), null),     min_service_time = IFMISSING(ROUND(STR_TO_DURATION(minServiceTime) / 1000 / 1000, 2), null) WHERE node = NODE_NAME() AND uses = 0 ORDER BY name ASC LIMIT $stop;\",\n    \"$stop\": ${limit},\n    \"readonly\": true,\n    \"client_context_id\": \"grafana\"\n}",
+              "cacheDurationSeconds": 0,
+              "fields": [
+                {
+                  "jsonPath": "$.results[*].name",
+                  "name": "Name",
+                  "type": "string"
+                },
+                {
+                  "jsonPath": "$.results[*].uses",
+                  "name": "Uses",
+                  "type": "number"
+                },
+                {
+                  "jsonPath": "$.results[*].statement",
+                  "name": "Statement",
+                  "type": "string"
+                }
+              ],
+              "headers": [
+                [
+                  "Content-Type",
+                  "application/json"
+                ]
+              ],
+              "method": "POST",
+              "params": [],
+              "queryParams": "",
+              "refId": "A",
+              "urlPath": "/query/service"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Top ${limit} Un-used Used Prepared Queries",
+          "transform": "table",
+          "type": "table"
+        }
+      ],
+      "title": "Un-Used Prepared Queries",
+      "type": "row"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 30,
+  "style": "dark",
+  "tags": [
+    "Couchbase",
+    "N1QL",
+    "Prepared",
+    "Statement"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "Demo Cluster 2 - ec2-18-218-202-18.us-east-2.compute.amazonaws.com",
+          "value": "Demo Cluster 2 - ec2-18-218-202-18.us-east-2.compute.amazonaws.com"
+        },
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "Datasource",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "marcusolsson-json-datasource",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "100",
+          "value": "100"
+        },
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "Limit",
+        "multi": false,
+        "name": "limit",
+        "options": [
+          {
+            "selected": false,
+            "text": "10",
+            "value": "10"
+          },
+          {
+            "selected": false,
+            "text": "25",
+            "value": "25"
+          },
+          {
+            "selected": false,
+            "text": "50",
+            "value": "50"
+          },
+          {
+            "selected": true,
+            "text": "100",
+            "value": "100"
+          },
+          {
+            "selected": false,
+            "text": "250",
+            "value": "250"
+          },
+          {
+            "selected": false,
+            "text": "500",
+            "value": "500"
+          },
+          {
+            "selected": false,
+            "text": "1000",
+            "value": "1000"
+          },
+          {
+            "selected": false,
+            "text": "4000",
+            "value": "4000"
+          }
+        ],
+        "query": "10,25,50,100,250,500,1000,4000",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {
+    "hidden": true
+  },
+  "timezone": "",
+  "title": "Couchbase Prepared Statements",
+  "uid": "hLSLcYmnk",
+  "version": 32
+}

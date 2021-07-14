@@ -27,9 +27,11 @@ Repeat this process for _each_ query node that you wish to configure.   By defau
 
 The dashboards can be imported into Grafana, by navigating to `Manage Dashboards` and selecting the `Import` option.  The dashboard json can be copied and pasted directly into the UI or uploaded.  
 
+---
+
 ### [Slow Queries Dashboard](dashboards/slow-queries-dashboard.json)
 
-![Slow Queries Dashboard](./assets/slow-queries-dashboards.jpg)
+![Slow Queries Dashboard](./assets/slow-queries-dashboard.jpg)
 
 The slow queries dashboard will query and display information from the [`system:completed_requests`](https://docs.couchbase.com/server/current/manage/monitor/monitoring-n1ql-query.html#sys-completed-req) keyspace.    Many of these queries are adapted from the [Couchbase Connect Online: Identifying and Tuning Slow Queries Presentation](https://www.youtube.com/watch?v=VlvL6jYCENw&t=1s).   While the  [`system:completed_requests`](https://docs.couchbase.com/server/current/manage/monitor/monitoring-n1ql-query.html#sys-completed-req) keyspace is global, the N1QL queries performed by the dashboard are limited in scope to a single query node for minimal impact and performance.
 
@@ -39,7 +41,7 @@ The slow queries dashboard will query and display information from the [`system:
 -   User _(default: All)_
 -   Limit _(default: 25)_
 
-##### Charts
+##### Charts/Stats
 
 -   Count of Slow Queries
 -   Sum of Slow Query Fetches
@@ -59,3 +61,30 @@ The slow queries dashboard will query and display information from the [`system:
 -   Highest Cost Queries
 -   Primary Index Queries
 -   Queries with Errors
+
+---
+
+### [Prepared Statements Dashboard](dashboards/prepared-statements-dashboard.json)
+
+![Prepared Statements Dashboard](./assets/slow-queries-dashboard.jpg)
+
+The [prepared statements](https://docs.couchbase.com/java-sdk/current/concept-docs/n1ql-query.html#prepared-statements-for-query-optimization) dashboard will query and display information from the [`system:prepareds`](https://docs.couchbase.com/server/current/manage/monitor/monitoring-n1ql-query.html#sys-prepared) keyspace.      While the  [`system:prepareds`](https://docs.couchbase.com/server/current/manage/monitor/monitoring-n1ql-query.html#sys-prepared) keyspace is global, the N1QL queries performed by the dashboard are limited in scope to a single query node for minimal impact and performance.
+
+##### Filters
+
+-   Datasource
+-   Limit _(default: 100)_
+
+##### Charts/Stats
+
+-   Count of Prepared Statements
+-   Count of Un-Used Prepared Statements
+-   Avg. # of Uses per Prepared
+-   Avg. Elapsed Time for Prepared Execution
+
+##### Tables
+
+-   Slowest Prepared Statements
+-   Most Used Prepared Statements
+-   Most Recently Used Prepared Statements
+-   Un-Used Prepared Statements
