@@ -66,7 +66,7 @@ The slow queries dashboard will query and display information from the [`system:
 
 ### [Prepared Statements Dashboard](dashboards/prepared-statements-dashboard.json)
 
-![Prepared Statements Dashboard](./assets/slow-queries-dashboard.jpg)
+![Prepared Statements Dashboard](./assets/prepared-statement-dashboard.jpg)
 
 The [prepared statements](https://docs.couchbase.com/java-sdk/current/concept-docs/n1ql-query.html#prepared-statements-for-query-optimization) dashboard will query and display information from the [`system:prepareds`](https://docs.couchbase.com/server/current/manage/monitor/monitoring-n1ql-query.html#sys-prepared) keyspace.      While the  [`system:prepareds`](https://docs.couchbase.com/server/current/manage/monitor/monitoring-n1ql-query.html#sys-prepared) keyspace is global, the N1QL queries performed by the dashboard are limited in scope to a single query node for minimal impact and performance.
 
