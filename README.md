@@ -6,7 +6,7 @@ The dashboards leverage the Grafana plugin [JSON API Datasource](https://marcus.
 
 ## Data Source Setup
 
-Once the JSON API is [installed](https://marcus.se.net/grafana-json-datasource/installation), a datasource will need to be configured for _each_ of the Couchbase Nodes running the Query Service.  
+Once the JSON API is [installed](https://grafana.com/grafana/plugins/marcusolsson-json-datasource/), a datasource will need to be configured for _each_ of the Couchbase Nodes running the Query Service.  
 
 1.  In Grafana, navigate to `Data Sources` and select `Add data source`
 2.  From the list of data-sources select `JSON API`
